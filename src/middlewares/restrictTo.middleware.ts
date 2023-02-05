@@ -4,6 +4,7 @@ import logger from '../lib/logger';
 
 const restrictTo =
   (roles: UserRoles) => (_req: Request, _res: Response, next: NextFunction) => {
+    logger.info(`Roles passed: ${roles}`);
     next();
   };
 
