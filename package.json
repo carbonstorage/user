@@ -15,9 +15,9 @@
     "start:dev": "yarn build && cross-env NODE_ENV=development concurrently \"yarn build:watch\" \"yarn build:run\"",
     "start:prod": "cross-env NODE_ENV=production node dist/app.js",
     "start": "cross-env NODE_ENV=development node dist/app.js",
-    "docker:build": "docker build --platform=linux/amd64 -t user:0.8 .",
-    "docker:tag": "docker tag user:0.8 registry.digitalocean.com/carbon-server/user:0.8",
-    "docker:push": "docker push registry.digitalocean.com/carbon-server/user:0.8"
+    "docker:build": "docker build --platform=linux/amd64 -t user:0.9 .",
+    "docker:tag": "docker tag user:0.9 registry.digitalocean.com/carbon-server/user:0.9",
+    "docker:push": "docker push registry.digitalocean.com/carbon-server/user:0.9"
   },
   "keywords": [],
   "author": "",
