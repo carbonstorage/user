@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: api
-          image: registry.digitalocean.com/carbon-server/user:0.9
+          image: registry.digitalocean.com/carbon-server/user:0.10
           ports:
             - containerPort: 5000
           env:
@@ -24,6 +24,11 @@ spec:
                 secretKeyRef:
                   name: user-service-secret
                   key: USER_SERVICE_DATABASE_URL
+            - name: CARBON_DB
+              valueFrom:
+                secretKeyRef:
+                  name: user-service-secret
+                  key: CARBON_DB
 ---
 apiVersion: v1
 kind: Service

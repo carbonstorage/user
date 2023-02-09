@@ -18,10 +18,10 @@ class ExpressApplication {
     this.port = port;
 
     // __init__
+    this.setupLogger();
     this.setupMiddlewares(middlewares);
     this.setupRoutes(controllers);
     this.configureAssets();
-    this.setupLogger();
   }
 
   private setupMiddlewares(middlewaresArr: any[]) {
