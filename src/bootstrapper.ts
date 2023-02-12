@@ -1,6 +1,8 @@
 import path from 'path';
 import express, { Application, Handler } from 'express';
 import morgan from 'morgan';
+import 'express-async-errors';
+import globalErrorHandler from './middlewares/globalErrorHandler.middleware';
 
 import logger from './lib/logger';
 import MetadataKeys from './utils/metadata.keys';
@@ -22,6 +24,7 @@ class ExpressApplication {
     this.setupMiddlewares(middlewares);
     this.setupRoutes(controllers);
     this.configureAssets();
+    this.setupGlobalErrorHandler();
   }
 
   private setupMiddlewares(middlewaresArr: any[]) {
@@ -84,9 +87,17 @@ class ExpressApplication {
     }
   }
 
+  private setupGlobalErrorHandler() {
+    {
+      this.app.use(globalErrorHandler);
+    }
+  }
+
   public start() {
     return this.app.listen(this.port, () => {
-      logger.info(`Application is running on port ${this.port}`);
+      logger.info(
+        `Application is running on ${process.env.NODE_ENV} port ${this.port}`,
+      );
     });
   }
 }

@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import logger from '../../lib/logger';
 
 import { PrismaClient } from '@prisma/client';
+import ValidationError from '../../errors/ValidationError';
+import DatabaseError from '../../errors/DatabaseError';
 
 const prisma = new PrismaClient();
 
@@ -16,11 +18,23 @@ export default class UserService {
   }
 
   public async createUser(req: Request, res: Response) {
-    const user = await prisma.user.create({
-      data: req.body,
-    });
-    logger.info(`Created user id: ${user.id}`);
+    const { email, name, age }: { email: string; name: string; age: number } =
+      req.body;
+    if (name.length < 2) {
+      throw new ValidationError(
+        'Name should be longer than 1 characters!',
+        'name',
+      );
+    }
 
-    res.status(200).json({ user });
+    try {
+      const user = await prisma.user.create({
+        data: { email, name, age },
+      });
+      logger.info(`Created user id: ${user.id}`);
+      res.status(200).json({ user });
+    } catch (err) {
+      throw new DatabaseError(err, 'database');
+    }
   }
 }
